@@ -6,7 +6,7 @@ exports.up = function(knex, Promise) {
     commentsTable.integer("article_id").references("articles.article_id");
     commentsTable.integer("votes").defaultTo(0);
     commentsTable.timestamp("created_at").defaultTo(knex.fn.now()); //default to current date
-    commentsTable.string("body").notNullable();
+    commentsTable.text("body").notNullable();
   });
 };
 

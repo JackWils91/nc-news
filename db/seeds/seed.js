@@ -1,5 +1,11 @@
 // const {  } = require('../data');
-const { topicData, userData, articleData } = require("../data/index");
+const {
+  topicData,
+  userData,
+  articleData,
+  commentData
+} = require("../data/index");
+const { timeStamp, createRef, formatComments } = require("../../utils/index");
 
 exports.seed = (knex, Promise) => {
   return knex.migrate
@@ -16,6 +22,20 @@ exports.seed = (knex, Promise) => {
         .returning("*");
     })
     .then(() => {
-      // need to take userData, pass it  through a function and add it author into autor key
+      const updatedArticleData = timeStamp(articleData);
+      return knex("articles")
+        .insert(updatedArticleData)
+        .returning("*");
+    })
+    .then(articles => {
+      const timeStampedCommentData = timeStamp(commentData);
+      const articleRef = createRef(articles);
+      const updatedCommentData = formatComments(
+        articleRef,
+        timeStampedCommentData
+      );
+      return knex("comments")
+        .insert(updatedCommentData)
+        .returning("*");
     });
 };
