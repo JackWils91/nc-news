@@ -44,11 +44,31 @@ exports.sendCommentsByArticleId = (req, res, next) => {
     .then(comments => {
       console.log(comments);
       if (comments.length < 1) {
-        return Promise.reject({
-          status: 404,
-          msg: "article ID does not exist"
+        // no comments?
+        // check if article exists using fetch article
+        // if fetch article returns an article, then you know there are no comments
+        // if it doesnt you know the article doesnt exist
+        return fetchArticle(article_id, req.query).then(article => {
+          if (!article) {
+            return Promise.reject({
+              status: 404,
+              msg:
+                "trying to fetch comments for an article ID that does not exist"
+            });
+          } else {
+            res.status(200).send({ comments });
+          }
         });
-      } else {
+      }
+      //   return Promise.reject({
+      //     status: 404,
+      //     msg: "article ID does not exist"
+      //   });
+      // }
+      // // else if (comments.length < 1) {
+
+      // // }
+      else {
         res.status(200).send({ comments });
       }
     })

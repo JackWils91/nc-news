@@ -384,7 +384,9 @@ describe("/", () => {
               .get("/api/articles/26000/comments")
               .expect(404)
               .then(({ body }) => {
-                expect(body.msg).to.equal("article ID does not exist");
+                expect(body.msg).to.equal(
+                  "trying to fetch comments for an article ID that does not exist"
+                );
               });
           });
           it("GET - /articles/:article_id/comments - status:400 - when passed an invalid character article ID url substring", () => {
