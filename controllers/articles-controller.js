@@ -3,20 +3,19 @@ const {
   updateVotes,
   fetchCommentsByArticleId,
   insertCommentsByArticleId
-  // fetchArticles
 } = require("../models/articles-model");
 
 exports.sendArticle = (req, res, next) => {
   const { article_id } = req.params;
   fetchArticle(article_id, req.query)
-    .then(article => {
-      if (!article) {
+    .then(articles => {
+      if (!articles) {
         return Promise.reject({
           status: 404,
           msg: "article ID does not exist"
         });
       } else {
-        res.status(200).send({ article });
+        res.status(200).send({ articles });
       }
     })
     .catch(next);

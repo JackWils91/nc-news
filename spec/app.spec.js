@@ -104,8 +104,8 @@ describe("/", () => {
           .get("/api/articles")
           .expect(200)
           .then(({ body }) => {
-            expect(body.article).to.be.an("array");
-            expect(body.article[0]).to.contain.keys([
+            expect(body.articles).to.be.an("array");
+            expect(body.articles[0]).to.contain.keys([
               "author",
               "title",
               "article_id",
@@ -123,7 +123,7 @@ describe("/", () => {
           .expect(200)
           .then(({ body }) => {
             //console.log(body.article);
-            expect(body.article).to.be.descendingBy("article_id");
+            expect(body.articles).to.be.descendingBy("article_id");
           });
       });
       it("GET - /articles - status:200 - sort defaults to created_at (date)", () => {
@@ -131,7 +131,7 @@ describe("/", () => {
           .get("/api/articles")
           .expect(200)
           .then(({ body }) => {
-            expect(body.article).to.be.descendingBy("created_at");
+            expect(body.articles).to.be.descendingBy("created_at");
           });
       });
       it("GET - /articles?order=asc - status:200 - can be sorted by ascending/descending order", () => {
@@ -139,7 +139,7 @@ describe("/", () => {
           .get("/api/articles?order=asc")
           .expect(200)
           .then(({ body }) => {
-            expect(body.article).to.be.ascendingBy("created_at");
+            expect(body.articles).to.be.ascendingBy("created_at");
           });
       });
       it("GET - /articles?order=asc - status:200 - defaults to descending order", () => {
@@ -147,7 +147,7 @@ describe("/", () => {
           .get("/api/articles")
           .expect(200)
           .then(({ body }) => {
-            expect(body.article).to.be.descendingBy("created_at");
+            expect(body.articles).to.be.descendingBy("created_at");
           });
       });
       it("GET - /articles?author - status:200 - filters articles by author value specified in the query", () => {
@@ -155,7 +155,7 @@ describe("/", () => {
           .get("/api/articles?author=butter_bridge")
           .expect(200)
           .then(({ body }) => {
-            expect(body.article).to.eql([
+            expect(body.articles).to.eql([
               {
                 article_id: 1,
                 title: "Living in the shadow of a great man",
@@ -194,7 +194,7 @@ describe("/", () => {
           .get("/api/articles?topic=cats")
           .expect(200)
           .then(({ body }) => {
-            expect(body.article).to.eql([
+            expect(body.articles).to.eql([
               {
                 article_id: 5,
                 title: "UNCOVERED: catspiracy to bring down democracy",
@@ -214,8 +214,8 @@ describe("/", () => {
             .get("/api/articles/3")
             .expect(200)
             .then(({ body }) => {
-              expect(body.article).to.be.an("object");
-              expect(body.article).to.contain.keys([
+              expect(body.articles).to.be.an("object");
+              expect(body.articles).to.contain.keys([
                 "author",
                 "title",
                 "article_id",
@@ -232,7 +232,7 @@ describe("/", () => {
             .get("/api/articles/3")
             .expect(200)
             .then(({ body }) => {
-              expect(body.article.title).to.equal(
+              expect(body.articles.title).to.equal(
                 "Eight pug gifs that remind me of mitch"
               );
             });
@@ -417,63 +417,65 @@ describe("/", () => {
         });
       });
     });
-    it("PATCH - /comments/:comment_id - status:200 - increments votes and returns the updated comment as an object with all respective keys", () => {
-      return request(app)
-        .patch("/api/comments/6")
-        .send({
-          inc_votes: 1
-        })
-        .expect(200)
-        .then(({ body }) => {
-          expect(body.comment.votes).to.equal(1);
-          expect(body.comment).to.be.an("object");
-          expect(body.comment).to.contain.keys([
-            "comment_id",
-            "author",
-            "article_id",
-            "votes",
-            "created_at",
-            "body"
-          ]);
-        });
-    });
-    it("PATCH - /comments/:comment_id - status:400 - for an invalid comment_id", () => {
-      return request(app)
-        .patch("/api/comments/thesun") // going to return an empty array as a valid ID that does not exist
-        .send({ inc_votes: 1 })
-        .expect(400);
-    });
-    it("PATCH - /comments/:comment_id - status:404 - for a valid integer value but invalid comment_id in database", () => {
-      return request(app)
-        .patch("/api/comments/45000") // going to return an empty array as a valid ID that does not exist
-        .send({ inc_votes: 1 })
-        .expect(404);
-    });
-    it("PATCH - /comments/:comment_id - status:405 - Method Not Allowed - dealt with in the router file", () => {
-      return request(app)
-        .put("/api/comments/45000") // invalid request type
-        .send({ inc_votes: 1 })
-        .expect(405);
-    });
-    it("DELETE - /comments/:comment_id - status: 204 - deletes the requested comment", () => {
-      return request(app)
-        .delete("/api/comments/6")
-        .expect(204);
-    });
-    it("DELETE - /comments/:comment_id - status:400 - for an invalid comment_id", () => {
-      return request(app)
-        .delete("/api/comments/thesun")
-        .expect(400);
-    });
-    it("DELETE - /comments/:comment_id - status:404 - for a valid integer value but invalid comment_id in database", () => {
-      return request(app)
-        .delete("/api/comments/45000")
-        .expect(404);
-    });
-    it("DELETE - /comments/:comment_id - status:405 - Method Not Allowed - dealt with in the router file", () => {
-      return request(app)
-        .put("/api/comments/45000")
-        .expect(405);
+    describe("/comments", () => {
+      it("PATCH - /comments/:comment_id - status:200 - increments votes and returns the updated comment as an object with all respective keys", () => {
+        return request(app)
+          .patch("/api/comments/6")
+          .send({
+            inc_votes: 1
+          })
+          .expect(200)
+          .then(({ body }) => {
+            expect(body.comment.votes).to.equal(1);
+            expect(body.comment).to.be.an("object");
+            expect(body.comment).to.contain.keys([
+              "comment_id",
+              "author",
+              "article_id",
+              "votes",
+              "created_at",
+              "body"
+            ]);
+          });
+      });
+      it("PATCH - /comments/:comment_id - status:400 - for an invalid comment_id", () => {
+        return request(app)
+          .patch("/api/comments/thesun") // going to return an empty array as a valid ID that does not exist
+          .send({ inc_votes: 1 })
+          .expect(400);
+      });
+      it("PATCH - /comments/:comment_id - status:404 - for a valid integer value but invalid comment_id in database", () => {
+        return request(app)
+          .patch("/api/comments/45000") // going to return an empty array as a valid ID that does not exist
+          .send({ inc_votes: 1 })
+          .expect(404);
+      });
+      it("PATCH - /comments/:comment_id - status:405 - Method Not Allowed - dealt with in the router file", () => {
+        return request(app)
+          .put("/api/comments/45000") // invalid request type
+          .send({ inc_votes: 1 })
+          .expect(405);
+      });
+      it("DELETE - /comments/:comment_id - status: 204 - deletes the requested comment", () => {
+        return request(app)
+          .delete("/api/comments/6")
+          .expect(204);
+      });
+      it("DELETE - /comments/:comment_id - status:400 - for an invalid comment_id", () => {
+        return request(app)
+          .delete("/api/comments/thesun")
+          .expect(400);
+      });
+      it("DELETE - /comments/:comment_id - status:404 - for a valid integer value but invalid comment_id in database", () => {
+        return request(app)
+          .delete("/api/comments/45000")
+          .expect(404);
+      });
+      it("DELETE - /comments/:comment_id - status:405 - Method Not Allowed - dealt with in the router file", () => {
+        return request(app)
+          .put("/api/comments/45000")
+          .expect(405);
+      });
     });
   });
 });
