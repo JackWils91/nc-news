@@ -4,8 +4,13 @@ exports.handleCustomErrors = (err, req, res, next) => {
 };
 
 exports.handleSQLErrors = (err, req, res, next) => {
-  if (err.code === "22P02") res.status(400).send({ message: err.message });
-  else next(err);
+  if (err.code === "22P02") {
+    const errSplit = err.message.split("-");
+    const errMsg = errSplit[errSplit.length - 1];
+    res.status(400).send({ message: errMsg });
+  } else if (err.code === "23503") {
+    res.status(404).send({ msg: "article ID does not exist" });
+  } else next(err);
 };
 
 exports.routeNotFound = (req, res) => {
@@ -17,5 +22,6 @@ exports.methodNotAllowed = (req, res) => {
 };
 
 exports.handle500 = (err, req, res, next) => {
+  console.log(err);
   res.status(500).send({ msg: "Internal Server Error" });
 };
