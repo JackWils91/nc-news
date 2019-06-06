@@ -397,6 +397,14 @@ describe("/", () => {
                 );
               });
           });
+          it("GET - /articles/:article_id/comments - status:200 - when passed an article with no comments", () => {
+            return request(app)
+              .get("/api/articles/2/comments")
+              .expect(200)
+              .then(({ body }) => {
+                console.log(body);
+              });
+          });
           it("POST - /articles/:article_id/comments - status:200 - responds with a posted comment", () => {
             return request(app)
               .post("/api/articles/1/comments")

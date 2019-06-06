@@ -42,6 +42,7 @@ exports.sendCommentsByArticleId = (req, res, next) => {
   const { article_id } = req.params;
   fetchCommentsByArticleId(article_id, req.query)
     .then(comments => {
+      console.log(comments);
       if (comments.length < 1) {
         return Promise.reject({
           status: 404,

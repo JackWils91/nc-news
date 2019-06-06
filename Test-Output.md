@@ -124,6 +124,8 @@ Hints:
 - ignore a `patch` request with no information in the request body, and send the unchanged article to the client
 - provide a default argument of `0` to the `increment` method, otherwise it will automatically increment by 1
 
+DONE
+
 ### GET `/api/articles/1/comments`
 
 Assertion: expected undefined to be an array
@@ -131,6 +133,8 @@ Assertion: expected undefined to be an array
 Hints:
 
 - send comments in an array, with a key of `comments`
+
+DONE
 
 ### GET `/api/articles/1/comments`
 
