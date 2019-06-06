@@ -75,10 +75,10 @@ exports.sendArticles = (req, res, next) => {
   const { article_id } = req.params;
   fetchArticle(article_id, req.query)
     .then(articles => {
-      if (!articles) {
+      if (articles.length < 1) {
         return Promise.reject({
           status: 404,
-          msg: "article ID does not exist"
+          msg: "author does not exist"
         });
       } else {
         res.status(200).send({ articles });

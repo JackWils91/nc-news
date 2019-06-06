@@ -202,7 +202,7 @@ describe("/", () => {
           .get("/api/articles?sort_by=not-a-column")
           .expect(404)
           .then(({ body }) => {
-            expect(body.msg).to.equal("column does not exist");
+            expect(body.message).to.equal("column does not exist");
           });
       });
       it("GET - /articles?topic - status:200 - filters the articles by the topic value specified in the query", () => {
