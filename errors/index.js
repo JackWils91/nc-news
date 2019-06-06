@@ -11,8 +11,6 @@ exports.handleSQLErrors = (err, req, res, next) => {
   } else if (err.code === "23503") {
     res.status(404).send({ msg: "article ID does not exist" });
   } else if (err.code === "42703") {
-    const errSplit = err.message.split("-");
-    const errMsg = errSplit[errSplit.length - 1];
     res.status(404).send({ message: "column does not exist" });
   } else next(err);
 };

@@ -197,10 +197,18 @@ describe("/", () => {
             expect(body.msg).to.equal("author does not exist");
           });
       });
-      it("GET - /articles?sort_by=not-an-author - status:404 - when passed a valid integer article ID url substring", () => {
+      it("GET - /articles?topic=not-a-topic - status:404 - when passed a valid integer article ID url substring", () => {
+        return request(app)
+          .get("/api/articles?topic=not-a-topic")
+          .expect(404)
+          .then(({ body }) => {
+            expect(body.msg).to.equal("topic does not exist");
+          });
+      });
+      it("GET - /articles?sort_by=not-a-column - status:400 - when passed a valid integer article ID url substring", () => {
         return request(app)
           .get("/api/articles?sort_by=not-a-column")
-          .expect(404)
+          .expect(400)
           .then(({ body }) => {
             expect(body.message).to.equal("column does not exist");
           });
