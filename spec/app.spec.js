@@ -214,8 +214,8 @@ describe("/", () => {
             .get("/api/articles/3")
             .expect(200)
             .then(({ body }) => {
-              expect(body.articles).to.be.an("object");
-              expect(body.articles).to.contain.keys([
+              expect(body.article).to.be.an("object");
+              expect(body.article).to.contain.keys([
                 "author",
                 "title",
                 "article_id",
@@ -232,7 +232,7 @@ describe("/", () => {
             .get("/api/articles/3")
             .expect(200)
             .then(({ body }) => {
-              expect(body.articles.title).to.equal(
+              expect(body.article.title).to.equal(
                 "Eight pug gifs that remind me of mitch"
               );
             });

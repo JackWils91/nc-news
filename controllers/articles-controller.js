@@ -8,14 +8,14 @@ const {
 exports.sendArticle = (req, res, next) => {
   const { article_id } = req.params;
   fetchArticle(article_id, req.query)
-    .then(articles => {
-      if (!articles) {
+    .then(article => {
+      if (!article) {
         return Promise.reject({
           status: 404,
           msg: "article ID does not exist"
         });
       } else {
-        res.status(200).send({ articles });
+        res.status(200).send({ article });
       }
     })
     .catch(next);
@@ -71,8 +71,18 @@ exports.postCommentsByArticleId = (req, res, next) => {
     .catch(next);
 };
 
-// exports.sendArticles = (req, res, next) => {
-//   fetchArticles()
-//     .then(() => {})
-//     .catch(next);
-// };
+exports.sendArticles = (req, res, next) => {
+  const { article_id } = req.params;
+  fetchArticle(article_id, req.query)
+    .then(articles => {
+      if (!articles) {
+        return Promise.reject({
+          status: 404,
+          msg: "article ID does not exist"
+        });
+      } else {
+        res.status(200).send({ articles });
+      }
+    })
+    .catch(next);
+};

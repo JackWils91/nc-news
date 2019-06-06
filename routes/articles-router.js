@@ -3,14 +3,15 @@ const {
   sendArticle,
   patchVoteByArticleId,
   sendCommentsByArticleId,
-  postCommentsByArticleId
+  postCommentsByArticleId,
+  sendArticles
   // sendArticles
 } = require("../controllers/articles-controller");
 const { methodNotAllowed } = require("../errors/index");
 
 articlesRouter
   .route("/")
-  .get(sendArticle)
+  .get(sendArticles)
   .all(methodNotAllowed);
 
 articlesRouter
