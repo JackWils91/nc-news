@@ -43,10 +43,6 @@ exports.sendCommentsByArticleId = (req, res, next) => {
   fetchCommentsByArticleId(article_id, req.query)
     .then(comments => {
       if (comments.length < 1) {
-        // no comments?
-        // check if article exists using fetch article
-        // if fetch article returns an article, then you know there are no comments
-        // if it doesnt you know the article doesnt exist
         return fetchArticle(article_id, req.query).then(article => {
           if (!article) {
             return Promise.reject({
@@ -58,16 +54,7 @@ exports.sendCommentsByArticleId = (req, res, next) => {
             res.status(200).send({ comments });
           }
         });
-      }
-      //   return Promise.reject({
-      //     status: 404,
-      //     msg: "article ID does not exist"
-      //   });
-      // }
-      // // else if (comments.length < 1) {
-
-      // // }
-      else {
+      } else {
         res.status(200).send({ comments });
       }
     })

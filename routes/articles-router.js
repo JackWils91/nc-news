@@ -5,7 +5,6 @@ const {
   sendCommentsByArticleId,
   postCommentsByArticleId,
   sendArticles
-  // sendArticles
 } = require("../controllers/articles-controller");
 const { methodNotAllowed } = require("../errors/index");
 

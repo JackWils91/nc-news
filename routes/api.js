@@ -5,9 +5,11 @@ const usersRouter = require("./users-router");
 const articlesRouter = require("./articles-router");
 const commentsRouter = require("./comments-router");
 
+const { sendEndpoints } = require("../controllers/api-controller");
+
 apiRouter
   .route("/")
-  .get((req, res) => res.send({ ok: true }))
+  .get(sendEndpoints)
   .all(methodNotAllowed);
 
 apiRouter.use("/topics", topicsRouter);
