@@ -360,7 +360,6 @@ describe("/", () => {
               .get("/api/articles/1/comments")
               .expect(200)
               .then(({ body }) => {
-                console.log(body);
                 expect(body.comments).to.be.descendingBy("created_at");
               });
           });
