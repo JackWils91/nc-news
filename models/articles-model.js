@@ -22,7 +22,7 @@ exports.fetchArticle = (
     .orderBy(sort_by, order);
 };
 
-exports.updateVotes = (article_id, increment) => {
+exports.updateVotes = (article_id, increment = 0) => {
   return connection("articles")
     .where({ article_id })
     .increment("votes", increment)

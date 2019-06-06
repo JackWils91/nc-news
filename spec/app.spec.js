@@ -312,15 +312,33 @@ describe("/", () => {
             .send({ inc_votes: 1 })
             .expect(405);
         });
+        it("PATCH - /:article_id - status:200 - request with no information in the request body sends the unchanged article to the client", () => {
+          return request(app)
+            .patch("/api/articles/1") // invalid request type
+            .send({})
+            .expect(200)
+            .then(({ body }) =>
+              expect(body.article).to.eql({
+                article_id: 1,
+                title: "Living in the shadow of a great man",
+                body: "I find this existence challenging",
+                votes: 100,
+                topic: "mitch",
+                author: "butter_bridge",
+                created_at: "2018-11-15T12:21:54.171Z"
+              })
+            );
+        });
+
         describe("/comments", () => {
           it("GET - /articles/:article_id/comments - status:200 - returns an array of objects for an article", () => {
             return request(app)
               .get("/api/articles/1/comments")
               .expect(200)
               .then(({ body }) => {
-                expect(body.article).to.be.an("array");
-                expect(body.article[0]).to.be.an("object");
-                expect(body.article[0]).to.contain.keys([
+                expect(body.comments).to.be.an("array");
+                expect(body.comments[0]).to.be.an("object");
+                expect(body.comments[0]).to.contain.keys([
                   "comment_id",
                   "votes",
                   "created_at",
@@ -334,7 +352,7 @@ describe("/", () => {
               .get("/api/articles/1/comments?sort_by=comment_id")
               .expect(200)
               .then(({ body }) => {
-                expect(body.article).to.be.descendingBy("comment_id");
+                expect(body.comments).to.be.descendingBy("comment_id");
               });
           });
           it("GET - /articles/:article_id/comments - status:200 - sort defaults to created_at", () => {
@@ -342,7 +360,8 @@ describe("/", () => {
               .get("/api/articles/1/comments")
               .expect(200)
               .then(({ body }) => {
-                expect(body.article).to.be.descendingBy("created_at");
+                console.log(body);
+                expect(body.comments).to.be.descendingBy("created_at");
               });
           });
           it("GET - /articles/:article_id/comments?order=asc - status:200 - can be sorted by ascending/descending order", () => {
@@ -350,7 +369,7 @@ describe("/", () => {
               .get("/api/articles/1/comments?order=asc")
               .expect(200)
               .then(({ body }) => {
-                expect(body.article).to.be.ascendingBy("created_at");
+                expect(body.comments).to.be.ascendingBy("created_at");
               });
           });
           it("GET - /articles/:article_id/comments?order=asc - status:200 - defaults to descending order", () => {
@@ -358,7 +377,7 @@ describe("/", () => {
               .get("/api/articles/1/comments")
               .expect(200)
               .then(({ body }) => {
-                expect(body.article).to.be.descendingBy("created_at");
+                expect(body.comments).to.be.descendingBy("created_at");
               });
           });
           it("GET - /articles/:article_id/comments - status:404 - when passed a valid integer article ID url substring", () => {

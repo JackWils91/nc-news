@@ -41,14 +41,14 @@ exports.patchVoteByArticleId = (req, res, next) => {
 exports.sendCommentsByArticleId = (req, res, next) => {
   const { article_id } = req.params;
   fetchCommentsByArticleId(article_id, req.query)
-    .then(article => {
-      if (article.length < 1) {
+    .then(comments => {
+      if (comments.length < 1) {
         return Promise.reject({
           status: 404,
           msg: "article ID does not exist"
         });
       } else {
-        res.status(200).send({ article });
+        res.status(200).send({ comments });
       }
     })
     .catch(next);
