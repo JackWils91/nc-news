@@ -226,6 +226,8 @@ Hints:
 - filter out invalid `sort_by` queries _OR_ handle in the error handling middleware
 - pick a consistent approach: ignore the invalid query, and use a 200 to serve up the articles with the default sort _OR_ use a 400 and provide a useful message to the client
 
+RESOLVED AS PART OF PREVIOUS ERROR HANDLING
+
 ### POST `/api/articles/1/comments`
 
 Assertion: expected 201 to equal 400

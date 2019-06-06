@@ -122,7 +122,6 @@ describe("/", () => {
           .get("/api/articles?sort_by=article_id")
           .expect(200)
           .then(({ body }) => {
-            //console.log(body.article);
             expect(body.articles).to.be.descendingBy("article_id");
           });
       });
@@ -363,6 +362,11 @@ describe("/", () => {
                 expect(body.comments).to.be.descendingBy("created_at");
               });
           });
+          it("GET - /articles/:article_id/comments?sort_by=not-a-valid-column - status:400 - returns 400 when passed an invalid query", () => {
+            return request(app)
+              .get("/api/articles/1/comments?sort_by=not-a-valid-column")
+              .expect(400);
+          });
           it("GET - /articles/:article_id/comments?order=asc - status:200 - can be sorted by ascending/descending order", () => {
             return request(app)
               .get("/api/articles/1/comments?order=asc")
@@ -402,10 +406,7 @@ describe("/", () => {
           it("GET - /articles/:article_id/comments - status:200 - when passed an article with no comments", () => {
             return request(app)
               .get("/api/articles/2/comments")
-              .expect(200)
-              .then(({ body }) => {
-                console.log(body);
-              });
+              .expect(200);
           });
           it("POST - /articles/:article_id/comments - status:200 - responds with a posted comment", () => {
             return request(app)
@@ -444,6 +445,19 @@ describe("/", () => {
                 body: "POST request to comments confirmed"
               })
               .expect(400);
+          });
+          it("POST - /articles/:article_id/comments - status:400 - when `POST` request does not include all the required keys", () => {
+            return request(app)
+              .post("/api/articles/1/comments") // going to return an empty array as a valid ID that does not exist
+              .send({
+                body: "POST request to comments confirmed"
+              })
+              .expect(400)
+              .then(({ body }) => {
+                expect(body.msg).to.equal(
+                  "`POST` request does not include all the required keys"
+                );
+              });
           });
           it("POST - /articles/:article_id/comments - status:404 - when passed a valid integer article ID url substring", () => {
             return request(app)
@@ -489,6 +503,14 @@ describe("/", () => {
               "body"
             ]);
           });
+      });
+      it("PATCH - /comments/:comment_id - status:200 - if patch but without a value for patch, do not increment and return a status 200", () => {
+        return request(app)
+          .patch("/api/comments/1")
+          .send({
+            inc_votes: 0
+          })
+          .expect(200);
       });
       it("PATCH - /comments/:comment_id - status:400 - for an invalid comment_id", () => {
         return request(app)

@@ -12,6 +12,10 @@ exports.handleSQLErrors = (err, req, res, next) => {
     res.status(404).send({ msg: "article ID does not exist" });
   } else if (err.code === "42703") {
     res.status(400).send({ message: "column does not exist" });
+  } else if (err.code === "23502") {
+    res.status(400).send({
+      msg: "`POST` request does not include all the required keys"
+    });
   } else next(err);
 };
 
