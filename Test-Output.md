@@ -10,6 +10,8 @@ Hints:
 
 - send articles to the client in an object, with a key of articles: `{ articles: [] }`
 
+UPDATED
+
 ### GET `/api/articles`
 
 Assertion: Cannot read property '0' of undefined
@@ -19,6 +21,8 @@ Hints:
 - the default sort should be by `created_at` and the default order should be `desc`
 
 **this might be fixed by the above**
+
+LEFT AS THINK IT'S WORKING OF ARTICLES KEY RATHER THAN ARTICLE KEY
 
 ### GET `/api/articles`
 
@@ -32,6 +36,7 @@ Hints:
 - use `GROUP BY` to avoid duplicate rows
 
 **this might be fixed by the above**
+LEFT AS THINK IT'S WORKING OF ARTICLES KEY RATHER THAN ARTICLE KEY
 
 ### GET `/api/articles?sort_by=author`
 
@@ -43,6 +48,7 @@ Hints:
 - use `author` for the column to store the username that created the article
 
 **this might be fixed by the above**
+LEFT AS THINK IT'S WORKING OF ARTICLES KEY RATHER THAN ARTICLE KEY
 
 ### GET `/api/articles?order=asc`
 
@@ -54,6 +60,8 @@ Hints:
 
 **this might be fixed by the above**
 
+LEFT AS THINK IT'S WORKING OF ARTICLES KEY RATHER THAN ARTICLE KEY
+
 ### GET `/api/articles?author=butter_bridge`
 
 Assertion: Cannot read property 'every' of undefined
@@ -64,6 +72,7 @@ Hints:
 - use `where` in the model
 
 **this might be fixed by the above**
+LEFT AS THINK IT'S WORKING OF ARTICLES KEY RATHER THAN ARTICLE KEY
 
 ### GET `/api/articles?topic=mitch`
 
@@ -75,6 +84,7 @@ Hints:
 - use `where` in the model
 
 **this might be fixed by the above**
+LEFT AS THINK IT'S WORKING OF ARTICLES KEY RATHER THAN ARTICLE KEY
 
 ### GET `/api/articles?topic=not-a-topic`
 

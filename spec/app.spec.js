@@ -189,6 +189,22 @@ describe("/", () => {
             ]);
           });
       });
+      it("GET - /articles?author=not-an-author - status:404 - when passed a valid integer article ID url substring", () => {
+        return request(app)
+          .get("/api/articles?author=not-an-author")
+          .expect(404)
+          .then(({ body }) => {
+            expect(body.msg).to.equal("author does not exist");
+          });
+      });
+      it("GET - /articles?sort_by=not-an-author - status:404 - when passed a valid integer article ID url substring", () => {
+        return request(app)
+          .get("/api/articles?sort_by=not-a-column")
+          .expect(404)
+          .then(({ body }) => {
+            expect(body.msg).to.equal("column does not exist");
+          });
+      });
       it("GET - /articles?topic - status:200 - filters the articles by the topic value specified in the query", () => {
         return request(app)
           .get("/api/articles?topic=cats")
