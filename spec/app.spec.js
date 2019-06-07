@@ -18,10 +18,7 @@ describe("/", () => {
     it("GET - /api - status:200", () => {
       return request(app)
         .get("/api")
-        .expect(200)
-        .then(({ body }) => {
-          console.log(body);
-        });
+        .expect(200);
     });
     describe("/topics", () => {
       it("GET - /topics - status:200 - returns an array and required keys", () => {
@@ -337,7 +334,7 @@ describe("/", () => {
               .then(({ body }) => {
                 expect(body.comments).to.be.an("array");
                 expect(body.comments[0]).to.be.an("object");
-                expect(body.comments[0]).to.contain.keys([
+                expect(body.comments[0]).to.have.keys([
                   "comment_id",
                   "votes",
                   "created_at",
@@ -508,9 +505,23 @@ describe("/", () => {
         return request(app)
           .patch("/api/comments/1")
           .send({
-            inc_votes: 0
+            // inc_votes: 0
           })
-          .expect(200);
+          .expect(200)
+          .then(({ body }) => {
+            expect(body).to.eql({
+              comment: {
+                comment_id: 1,
+                author: "butter_bridge",
+                article_id: 9,
+                votes: 16,
+                created_at: "2017-11-22T12:36:03.389Z",
+                body:
+                  "Oh, I've got compassion running out of my " +
+                  "nose, pal! I'm the Sultan of Sentiment!"
+              }
+            });
+          });
       });
       it("PATCH - /comments/:comment_id - status:400 - for an invalid comment_id", () => {
         return request(app)
