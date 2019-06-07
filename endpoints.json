@@ -74,6 +74,62 @@
           "created_at": "2010-11-17T12:21:54.171Z"
         }
       }
+    },
+    "GET /api/articles/:article_id/comments": {
+      "description": "serves an array of comments based on article_id",
+      "queries": ["sort_by", "order"],
+      "exampleResponse": {
+        "comments": [
+          {
+            "comment_id": 2,
+            "votes": 14,
+            "created_at": "2016-11-22T12:36:03.389Z",
+            "author": "butter_bridge",
+            "body": "The beautiful thing about treasure is that it exists. Got to find out what kind of sheets these are; not cotton, not rayon, silky."
+          }
+        ]
+      }
+    },
+    "POST /api/articles/:article_id/comments": {
+      "description": "request body accepts typeOf 'String' for keys username and body; and serves an object of the posted comment linked to the relevent article_id",
+      "queries": [],
+      "exampleRequest": {
+        "username": "lurker",
+        "body": "POST request to comments confirmed"
+      },
+      "exampleResponse": {
+        "comment": {
+          "comment_id": 19,
+          "author": "lurker",
+          "article_id": 1,
+          "votes": 0,
+          "created_at": "2019-06-07T09:49:59.799Z",
+          "body": "POST request to comments confirmed"
+        }
+      }
+    },
+    "PATCH /api/comments/:comment_id": {
+      "description": "request body accepts typeOf 'integer' for key inc_votes; and serves an object of the posted comment linked to the relevent article_id",
+      "queries": [],
+      "exampleRequest": {
+        "inc_votes": 1
+      },
+      "exampleResponse": {
+        "comment": {
+          "comment_id": 6,
+          "author": "icellusedkars",
+          "article_id": 1,
+          "votes": 1,
+          "created_at": "2012-11-23T12:36:03.389Z",
+          "body": "I hate streaming eyes even more"
+        }
+      }
+    },
+    "DELETE /api/comments/:comment_id": {
+      "description": "deletes a comment based on comment_id and serves a 204 confirming the deletion",
+      "queries": [],
+      "exampleRequest": {},
+      "exampleResponse": {}
     }
   }
 }
