@@ -563,4 +563,22 @@ describe("/", () => {
       });
     });
   });
+  describe("pagination", () => {
+    it("GET /api/articles - status:200 - create an array default limit of 10 items on a page", () => {
+      return request(app)
+        .get("/api/articles")
+        .then(({ body }) => {
+          console.log(body.articles.length);
+          expect(body.articles.length).to.equal(10);
+        });
+    });
+    it("GET /api/articles - status:200 - sorts array items by page", () => {
+      return request(app)
+        .get("/api/articles?p=2")
+        .then(({ body }) => {
+          console.log(body);
+          expect(body.articles.length).to.equal(2);
+        });
+    });
+  });
 });

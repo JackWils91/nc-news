@@ -2,7 +2,7 @@ const connection = require("../db/connection");
 
 exports.fetchArticle = (
   article_id,
-  { sort_by = "created_at", order = "desc", author, topic }
+  { sort_by = "created_at", order = "desc", author, topic, limit = 10, p }
 ) => {
   return connection
     .select("articles.*")
@@ -19,7 +19,9 @@ exports.fetchArticle = (
         query.where({ "articles.topic": topic });
       }
     })
-    .orderBy(sort_by, order);
+    .orderBy(sort_by, order)
+    .limit(limit)
+    .offset((p - 1) * limit);
 };
 
 exports.updateVotes = (article_id, increment = 0) => {
