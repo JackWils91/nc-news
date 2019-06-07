@@ -31,13 +31,48 @@
       "exampleResponse": {
         "articles": [
           {
-            "title": "Seafood substitutions are increasing",
-            "topic": "cooking",
-            "author": "weegembump",
-            "body": "Text from the article..",
-            "created_at": 1527695953341
+            "article_id": 1,
+            "title": "Living in the shadow of a great man",
+            "topic": "mitch",
+            "author": "butter_bridge",
+            "body": "I find this existence challenging",
+            "comment_count": "13",
+            "created_at": "2018-11-15T12:21:54.171Z",
+            "votes": 100
           }
         ]
+      }
+    },
+    "GET /api/articles/:article_id": {
+      "description": "serves an object based on an article defined by article_id",
+      "queries": [],
+      "exampleResponse": {
+        "article": {
+          "article_id": 3,
+          "title": "Eight pug gifs that remind me of mitch",
+          "body": "some gifs",
+          "votes": 0,
+          "topic": "mitch",
+          "author": "icellusedkars",
+          "created_at": "2010-11-17T12:21:54.171Z",
+          "comment_count": "0"
+        }
+      }
+    },
+    "PATCH /api/articles/:article_id": {
+      "description": "request body accepts an integer of key inc_votes and serves an object based on an article defined by article_id",
+      "queries": [],
+      "exampleRequest": { "inc_votes": 1 },
+      "exampleResponse": {
+        "article": {
+          "article_id": 3,
+          "title": "Eight pug gifs that remind me of mitch",
+          "body": "some gifs",
+          "votes": 1,
+          "topic": "mitch",
+          "author": "icellusedkars",
+          "created_at": "2010-11-17T12:21:54.171Z"
+        }
       }
     }
   }

@@ -252,6 +252,7 @@ describe("/", () => {
             .get("/api/articles/3")
             .expect(200)
             .then(({ body }) => {
+              console.log(body);
               expect(body.article.title).to.equal(
                 "Eight pug gifs that remind me of mitch"
               );
@@ -283,6 +284,7 @@ describe("/", () => {
             })
             .expect(200) // this expect relates to supertest rather than chai
             .then(({ body }) => {
+              console.log(body);
               expect(body.article.votes).to.equal(1);
               expect(body.article).to.be.an("object");
               expect(body.article).to.contain.keys([
