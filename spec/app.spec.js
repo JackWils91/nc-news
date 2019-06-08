@@ -568,7 +568,6 @@ describe("/", () => {
       return request(app)
         .get("/api/articles")
         .then(({ body }) => {
-          console.log(body);
           expect(body.articles.length).to.equal(10);
         });
     });
@@ -576,7 +575,6 @@ describe("/", () => {
       return request(app)
         .get("/api/articles?p=2")
         .then(({ body }) => {
-          console.log(body);
           expect(body.articles.length).to.equal(2);
         });
     });
@@ -584,8 +582,21 @@ describe("/", () => {
       return request(app)
         .get("/api/articles?p=2")
         .then(({ body }) => {
-          console.log(body);
           expect(body.total_count).to.equal(12);
+        });
+    });
+    it("GET /api/articles/:article_id/comments - status:200 - create an array default limit of 10 items on a page", () => {
+      return request(app)
+        .get("/api/articles/1/comments")
+        .then(({ body }) => {
+          expect(body.comments.length).to.equal(10);
+        });
+    });
+    it("GET /api/articles/:article_id/comments - status:200 - sorts array items by page", () => {
+      return request(app)
+        .get("/api/articles/1/comments?p=2")
+        .then(({ body }) => {
+          expect(body.comments.length).to.equal(3);
         });
     });
   });

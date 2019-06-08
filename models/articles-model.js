@@ -41,13 +41,15 @@ exports.updateVotes = (article_id, increment = 0) => {
 
 exports.fetchCommentsByArticleId = (
   article_id,
-  { sort_by = "created_at", order = "desc" }
+  { sort_by = "created_at", order = "desc", limit = 10, p }
 ) => {
   return connection
     .select("comment_id", "votes", "created_at", "author", "body")
     .from("comments")
     .where({ article_id })
-    .orderBy(sort_by, order);
+    .orderBy(sort_by, order)
+    .limit(limit)
+    .offset((p - 1) * limit);
 };
 
 exports.insertCommentsByArticleId = (postedComment, article_id) => {
