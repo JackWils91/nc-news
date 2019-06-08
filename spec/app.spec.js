@@ -568,7 +568,7 @@ describe("/", () => {
       return request(app)
         .get("/api/articles")
         .then(({ body }) => {
-          console.log(body.articles.length);
+          console.log(body);
           expect(body.articles.length).to.equal(10);
         });
     });
@@ -578,6 +578,14 @@ describe("/", () => {
         .then(({ body }) => {
           console.log(body);
           expect(body.articles.length).to.equal(2);
+        });
+    });
+    it("GET /api/articles - status:200 - count of total articles after sorting functions but before pagination limit", () => {
+      return request(app)
+        .get("/api/articles?p=2")
+        .then(({ body }) => {
+          console.log(body);
+          expect(body.total_count).to.equal(12);
         });
     });
   });

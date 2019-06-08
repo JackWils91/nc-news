@@ -8,7 +8,7 @@ const {
 exports.sendArticle = (req, res, next) => {
   const { article_id } = req.params;
   fetchArticle(article_id, req.query)
-    .then(article => {
+    .then(([article]) => {
       if (!article) {
         return Promise.reject({
           status: 404,
@@ -43,7 +43,7 @@ exports.sendCommentsByArticleId = (req, res, next) => {
   fetchCommentsByArticleId(article_id, req.query)
     .then(comments => {
       if (comments.length < 1) {
-        return fetchArticle(article_id, req.query).then(article => {
+        return fetchArticle(article_id, req.query).then(([article]) => {
           if (!article) {
             return Promise.reject({
               status: 404,
@@ -81,7 +81,7 @@ exports.postCommentsByArticleId = (req, res, next) => {
 exports.sendArticles = (req, res, next) => {
   const { article_id } = req.params;
   fetchArticle(article_id, req.query)
-    .then(articles => {
+    .then(([articles, total_count]) => {
       if (articles.length < 1) {
         const key = Object.keys(req.query);
         return Promise.reject({
@@ -89,7 +89,7 @@ exports.sendArticles = (req, res, next) => {
           msg: `${req.query[key]} does not exist`
         });
       } else {
-        res.status(200).send({ articles });
+        res.status(200).send({ articles, total_count });
       }
     })
     .catch(next);

@@ -4,7 +4,7 @@ exports.fetchArticle = (
   article_id,
   { sort_by = "created_at", order = "desc", author, topic, limit = 10, p }
 ) => {
-  return connection
+  const query1 = connection
     .select("articles.*")
     .from("articles")
     .leftJoin("comments", "comments.article_id", "=", "articles.article_id")
@@ -22,6 +22,14 @@ exports.fetchArticle = (
     .orderBy(sort_by, order)
     .limit(limit)
     .offset((p - 1) * limit);
+
+  const query2 = connection
+    .count("articles.article_id AS total_count")
+    .from("articles")
+    .then(([{ total_count }]) => {
+      return +total_count;
+    });
+  return Promise.all([query1, query2]);
 };
 
 exports.updateVotes = (article_id, increment = 0) => {
