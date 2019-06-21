@@ -11,7 +11,6 @@ Hosted: https://nc-news-jack-wilson.herokuapp.com/
 - node version 10
 - PostgreSQL version 11
 - npm version 6
-- API Testing tool (Insomnia, etc.)
 
 ### Installation
 
