@@ -12,14 +12,9 @@ exports.seed = (knex, Promise) => {
     .rollback()
     .then(() => knex.migrate.latest())
     .then(() => {
-      return knex("topics")
-        .insert(topicData)
-        .returning("*");
-    })
-    .then(() => {
-      return knex("users")
-        .insert(userData)
-        .returning("*");
+      const topicsPromise = knex("topics").insert(topicData);
+      const usersPromise = knex("users").insert(userData);
+      return Promise.all([topicsPromise, usersPromise]);
     })
     .then(() => {
       const updatedArticleData = timeStamp(articleData);
