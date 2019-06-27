@@ -25,6 +25,14 @@ exports.fetchArticle = (
   const query2 = connection
     .count("articles.article_id AS total_count")
     .from("articles")
+    .modify(query => {
+      if (article_id) {
+        query.where({ "articles.article_id": article_id }).first();
+      } else {
+        if (author) query.where({ "articles.author": author });
+        if (topic) query.where({ "articles.topic": topic });
+      }
+    })
     .then(([{ total_count }]) => {
       return +total_count;
     });
