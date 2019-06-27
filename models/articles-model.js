@@ -29,8 +29,8 @@ exports.fetchArticle = (
       // if (article_id) {
       //   query.where({ "articles.article_id": article_id }).first();
       // } else {
-        if (author) query.where({ "articles.author": author });
-        if (topic) query.where({ "articles.topic": topic });
+      // if (author) query.where({ "articles.author": author });
+      if (topic) query.where({ "articles.topic": topic });
       // }
     })
     .then(([{ total_count }]) => {
