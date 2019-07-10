@@ -86,7 +86,7 @@ exports.sendArticles = (req, res, next) => {
         const key = Object.keys(req.query);
         return Promise.reject({
           status: 404,
-          msg: `${req.query[key]} does not exist`
+          msg: `No articles found for that search`
         });
       } else {
         res.status(200).send({ articles, total_count });

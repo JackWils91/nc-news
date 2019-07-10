@@ -190,7 +190,7 @@ describe("/", () => {
           .get("/api/articles?author=not-an-author")
           .expect(404)
           .then(({ body }) => {
-            expect(body.msg).to.equal("not-an-author does not exist");
+            expect(body.msg).to.equal("No articles found for that search");
           });
       });
       it("GET - /articles?topic=not-a-topic - status:404 - when passed a valid integer article ID url substring", () => {
@@ -198,7 +198,7 @@ describe("/", () => {
           .get("/api/articles?topic=not-a-topic")
           .expect(404)
           .then(({ body }) => {
-            expect(body.msg).to.equal("not-a-topic does not exist");
+            expect(body.msg).to.equal("No articles found for that search");
           });
       });
       it("GET - /articles?sort_by=not-a-column - status:400 - when passed a valid integer article ID url substring", () => {
